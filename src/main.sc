@@ -1,5 +1,12 @@
 s.boot();
 
+// MIDI Boot
+(
+    MIDIClient.init;
+    MIDIClient.destinations();
+    ~midi = MIDIOut.new(0);
+)
+
 (
     var u = "./utils/mod.sc".loadRelative[0];
     ~time4 = [1/3, (1/3)/2.dup(2), 1/3].flatten;
@@ -7,7 +14,6 @@ s.boot();
     ~bpm = TempoClock(80/60);
 
     ~melody = {
-        t = ~bpm;
         m = [0, -1, 0, -2];
         Pbind(
             \degree, Pseq([
@@ -26,12 +32,15 @@ s.boot();
                 Pseq(~time5.dup(4).flatten, 1),
             ]),
             \amp, 0.5,
-        ).play(t);
-    };
+        );
+    }.();
     
     ~chords = {
-        t = ~bpm;
         Pbind(
+            \type, \midi,
+            \midicmd, \noteOn,
+            \midiout, ~midi,
+            \chan, 0,
             \degree, Pseq([
                 Rest(4),
                 2.5,
@@ -46,9 +55,26 @@ s.boot();
                 1,
             ], inf),
             \amp, 0.25,
-        ).play(t);
+        );
+    }.();
+    
+    ~midiOpts = { |channel, midiOut|
+        (type: \midi,
+        midicmd: \noteOn,
+        midiout: midiOut,
+        chan: channel);
     };
-
-    ~melody.();
-    ~chords.();
+    
+    ~midiPlay = { |bpm|
+        (~melody <> ~midiOpts.(0, ~midi)).play(bpm);
+        (~chords <> ~midiOpts.(1, ~midi)).play(bpm);
+    };
+    
+    ~play = { |bpm|
+        ~melody.play(bpm);
+        ~chords.play(bpm);
+    };
+    
+    // ~midiPlay.(~bpm);
+    ~play.(~bpm);
 )
