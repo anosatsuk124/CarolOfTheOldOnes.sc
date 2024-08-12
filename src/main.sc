@@ -5,6 +5,7 @@ s.boot();
     MIDIClient.init;
     MIDIClient.destinations();
     ~midi = MIDIOut.new(0);
+    ~midi.latency = 0;
 )
 
 (
@@ -29,7 +30,7 @@ s.boot();
                 Pseq(~time4, 16),
                 Pseq(~time4, 4),
 
-                Pseq(~time5.dup(4).flatten, 1),
+                Pseq(~time5.dup(4).flatten),
             ]),
             \amp, 0.5,
         );
@@ -37,10 +38,6 @@ s.boot();
     
     ~chords = {
         Pbind(
-            \type, \midi,
-            \midicmd, \noteOn,
-            \midiout, ~midi,
-            \chan, 0,
             \degree, Pseq([
                 Rest(4),
                 2.5,
@@ -66,15 +63,24 @@ s.boot();
     };
     
     ~midiPlay = { |bpm|
-        (~melody <> ~midiOpts.(0, ~midi)).play(bpm);
-        (~chords <> ~midiOpts.(1, ~midi)).play(bpm);
+        var channel1 = 0, channel2 = 1;
+        (~melody <> ~midiOpts.(channel1, ~midi)).play(bpm);
+        (~chords <> ~midiOpts.(channel2, ~midi)).play(bpm);
+
+        // To unstuck the MIDI
+        CmdPeriod.add({
+            (0..127).do({ |n|
+                ~midi.noteOff(channel1, n);
+                ~midi.noteOff(channel2, n);
+            });
+        })
     };
     
     ~play = { |bpm|
         ~melody.play(bpm);
         ~chords.play(bpm);
     };
-    
-    // ~midiPlay.(~bpm);
-    ~play.(~bpm);
 )
+
+~midiPlay.(~bpm);
+~play.(~bpm);
