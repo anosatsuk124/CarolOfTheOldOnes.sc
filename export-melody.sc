@@ -23,8 +23,8 @@
         path.postln();
 
         md = SimpleMIDIFile(path);
-        md.init1(2, 80, "3/4");
-        md.fromPattern(~melody);
+        md.init1(2, 180, "3/4"); // Minimum track is 2
+        md.fromPattern(~song);
         md.plot();
         md.write();
     };

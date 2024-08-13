@@ -1,9 +1,10 @@
 (
     "../deps.sc".loadRelative();
     "./music.sc".loadRelative();
+    s.boot();
 )
 
-s.boot();
+~player.(~bpm);
 
 // MIDI Boot
 (
@@ -12,7 +13,5 @@ s.boot();
     ~midi = MIDIOut.new(0);
     ~midi.latency = 0;
 )
-
-~player.(~bpm);
 
 ~midiPlayer.(~bpm);
