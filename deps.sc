@@ -1,4 +1,13 @@
-var ddwMIDI = "ddwMIDI";
-if( not(Quarks.isInstalled(ddwMIDI)), {
-    Quarks.install(ddwMIDI);
-});
+(
+    var deps = [
+        "ddwMIDI",
+        "wslib",
+    ];
+
+    deps.do({ |dep|
+        if( not(Quarks.isInstalled(dep)), {
+            Quarks.install(dep);
+        });
+    });
+)
+
