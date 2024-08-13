@@ -1,34 +1,44 @@
 (
-    var path, name;
-    var md;
-    var cond = Condition.new;
-
     "./deps.sc".loadRelative();
     "./src/music.sc".loadRelative();
 
     r = Routine {
+        var cond = Condition.new;
+        var path;
+
         Dialog.savePanel({|p| 
             path = p.asString();
-            cond.unhang;
+            cond.unhang();
         });
 
-        //NOTE: Stop thread
-        cond.hang;
+        cond.hang();
+        
+        ~path = path;
+    };
 
-        path = PathName.new(path.asString());
-        name = path.fileNameWithoutExtension();
+    // For GUI to work
+    AppClock.play(r);
+)
+
+(
+    f = { |score, prefix|
+        var path, name;
+        var md;
+        var cond = Condition.new;
+
+        path = PathName.new(~path.asString());
+        name = prefix ++ "_" ++ path.fileNameWithoutExtension();
 
         path = path.parentPath() +/+ (name ++ ".mid");
         path = path.asString();
-        path.postln();
 
         md = SimpleMIDIFile(path);
         md.init1(2, 180, "3/4"); // Minimum track is 2
-        md.fromPattern(~song);
-        md.plot();
+        md.fromPattern(score);
         md.write();
     };
     
-    // For GUI to work
-    AppClock.play(r);
+    f.(~song, "song");
+    f.(~melody, "melody");
+    f.(~chords, "chords");
 )

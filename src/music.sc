@@ -90,7 +90,6 @@
     
     ~player = { |bpm|
         ~song.play(bpm);
-        ~melody.play(bpm);
         ~chords.play(bpm);
     };
 )
