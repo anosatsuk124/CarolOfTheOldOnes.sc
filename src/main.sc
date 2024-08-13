@@ -1,3 +1,5 @@
+"../deps.sc".loadRelative();
+
 s.boot();
 
 // MIDI Boot
@@ -47,7 +49,7 @@ s.boot();
                 1,
                 0,
                 -1,
-            ]),
+            ] - 3),
             \dur, Pseq([
                 1,
             ], inf),
@@ -62,25 +64,26 @@ s.boot();
         chan: channel);
     };
     
-    ~midiPlay = { |bpm|
-        var channel1 = 0, channel2 = 1;
-        (~melody <> ~midiOpts.(channel1, ~midi)).play(bpm);
-        (~chords <> ~midiOpts.(channel2, ~midi)).play(bpm);
+    ~midiPlayer = { |bpm|
+        var channels = [0, 1];
+
+        (~melody <> ~midiOpts.(channels[0], ~midi)).play(bpm);
+        (~chords <> ~midiOpts.(channels[1], ~midi)).play(bpm);
 
         // To unstuck the MIDI
-        CmdPeriod.add({
-            (0..127).do({ |n|
-                ~midi.noteOff(channel1, n);
-                ~midi.noteOff(channel2, n);
+        CmdPeriod.doOnce({
+            channels.do({|c|
+                ~midi.allNotesOff(c);
             });
-        })
+        });
     };
     
-    ~play = { |bpm|
+    ~player = { |bpm|
         ~melody.play(bpm);
         ~chords.play(bpm);
     };
 )
 
-~midiPlay.(~bpm);
-~play.(~bpm);
+~player.(~bpm);
+
+~midiPlayer.(~bpm);
