@@ -19,12 +19,12 @@ s.boot();
         Pbind(
             \degree, Pseq([
                 Pseq(m, 16),
-                Pseq(m + 1, 4),
+                Pseq(m + 2, 4), //NOTE: because it's degree
 
-                Pseq([2.5.dup(3), 2, 1.5].flatten),
-                Pseq([1.dup(3), 1.5, 1].flatten),
-                Pseq([-0.5.dup(3), 0, -0.5].flatten),
-                Pseq([-1, -2.dup(3), \].flatten),
+                Pseq([5.dup(3), 4, 3].flatten),
+                Pseq([2.dup(3), 1, 0].flatten),
+                Pseq([1.dup(3), 2, 1].flatten),
+                Pseq([0, -2.dup(3), \].flatten),
             ], 1),
             \dur, Pseq([
                 Pseq(~time4, 16),
@@ -40,13 +40,13 @@ s.boot();
         Pbind(
             \degree, Pseq([
                 Rest(4),
-                2.5,
+                3,
                 2,
-                1.5,
                 1,
-                1.5,
+                0,
                 1,
-                0.5,
+                0,
+                -1,
             ]),
             \dur, Pseq([
                 1,
