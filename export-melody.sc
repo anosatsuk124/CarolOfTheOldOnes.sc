@@ -33,7 +33,7 @@
         path = path.asString();
 
         md = SimpleMIDIFile(path);
-        md.init1(2, 180, "3/4"); // Minimum track is 2
+        md.init1(2, 60, "3/4"); // Minimum track is 2
         md.fromPattern(score);
         md.write();
     };

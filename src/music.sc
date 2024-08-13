@@ -1,10 +1,7 @@
 (
     // ~time4 = [1/3, (1/3)/2.dup(2), 1/3].flatten;
-    ~time4 = [1/3, ((1/3)/2), ((1/3)/2), 1/3].flatten;
+    ~time4 = [1/3, (1/3)/2, (1/3)/2, 1/3].flatten;
     ~time5 = [1/3, (1/3)/2.dup(4)].flatten;
-    c=0;
-    ~time4.do({|t| c = c + t; c.postln; });
-    ~bpm = TempoClock(80/60);
 
     ~melody = {
         m = [0, -1, 0, -2];
@@ -28,7 +25,7 @@
             \legato, 1,
         );
     }.();
-    
+
     ~song = {
         m = [0, 0, -1, 0, -2];
 
@@ -38,7 +35,7 @@
             \degree, Pseq([
                 Pseq(m, 16),
                 Pseq(m + 2, 4), //NOTE: because it's degree
-            ] + 4),
+            ] + 7),
             \dur, 
             Pseq([
                 Pseq(~time5_s, 16),
@@ -59,37 +56,11 @@
                 1,
                 0,
                 -1,
-            ] - 4),
+            ] - 7),
             \dur, Pseq([
                 1,
             ], inf),
             \amp, 0.25,
         );
     }.();
-    
-    ~midiOpts = { |channel, midiOut|
-        (type: \midi,
-        midicmd: \noteOn,
-        midiout: midiOut,
-        chan: channel);
-    };
-    
-    ~midiPlayer = { |bpm|
-        var channels = [0, 1];
-
-        (~melody <> ~midiOpts.(channels[0], ~midi)).play(bpm);
-        (~chords <> ~midiOpts.(channels[1], ~midi)).play(bpm);
-
-        // To unstuck the MIDI
-        CmdPeriod.doOnce({
-            channels.do({|c|
-                ~midi.allNotesOff(c);
-            });
-        });
-    };
-    
-    ~player = { |bpm|
-        ~song.play(bpm);
-        ~chords.play(bpm);
-    };
 )
