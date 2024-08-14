@@ -2,6 +2,8 @@
     "./deps.sc".loadRelative();
     "./src/music.sc".loadRelative();
 
+    ~bpm = TempoClock.new(160/60);
+
     r = Routine {
         var cond = Condition.new;
         var path;
@@ -9,7 +11,7 @@
         Dialog.savePanel({|p| 
             path = p.asString();
             cond.unhang();
-        });
+        }, path: "./".resolveRelative);
 
         cond.hang();
         
@@ -26,8 +28,10 @@
             path = path.asString();
 
             md = SimpleMIDIFile(path);
-            md.init1(2, 80, "4/4"); // Minimum track is 2
+            md.init0(60, "3/4"); // Minimum track is 2
+            md.timeMode = \ticks; // NOTE:
             md.fromPattern(score);
+            md.setTempo(160);
             md.write();
         };
     

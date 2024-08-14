@@ -35,7 +35,7 @@
         }.play;
     };
 )
-~bpm = TempoClock.new(60/60);
+~bpm = TempoClock.new(160/60);
 
 ~player.(~bpm);
 ~songScore.play(~bpm);

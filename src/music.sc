@@ -1,7 +1,7 @@
 (
     // ~time4 = [1/3, (1/3)/2.dup(2), 1/3].flatten;
-    ~time4 = [1/3, (1/3)/2, (1/3)/2, 1/3].flatten;
-    ~time5 = [1/3, (1/3)/2.dup(4)].flatten;
+    ~time4 = [1, (1)/2, (1)/2, 1].flatten;
+    ~time5 = [1, (1)/2.dup(4)].flatten;
 
     ~melody = {
         m = [0, -1, 0, -2];
@@ -19,7 +19,7 @@
             ]),
             \dur, 
             Pseq([
-                1,
+                3,
 
                 Pseq(~time4, 16),
                 Pseq(~time4, 4),
@@ -34,7 +34,7 @@
     ~songScore = {
         m = [0, 0, -1, 0, -2];
 
-        ~time5_s = [(1/3)/2, (1/3)/2, (1/3)/2, (1/3)/2, 1/3];
+        ~time5_s = [(1)/2, (1)/2, (1)/2, (1)/2, 1];
 
         Pbind(
             \degree, Pseq([
@@ -45,7 +45,7 @@
             ]),
             \dur, 
             Pseq([
-                1,
+                3,
                 
                 Pseq(~time5_s, 16),
                 Pseq(~time5_s, 4),
@@ -67,7 +67,7 @@
             \degree, Pseq([
                 \,
                 
-                Rest(4),
+                Rest(3),
                 -2,
                 -3,
                 -4,
@@ -105,7 +105,7 @@
                 -9, 
             ]),
             \dur, Pseq([
-                1,
+                3,
             ], inf),
             \legato, 1.25,
             \amp, 0.5,
