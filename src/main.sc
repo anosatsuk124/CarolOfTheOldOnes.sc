@@ -33,6 +33,8 @@
 ~bpm = TempoClock.new(80/60);
 
 ~player.(~bpm);
+~song.play(~bpm);
+~chords.play(~bpm);
 ~melody.play();
 
 Scale.directory()

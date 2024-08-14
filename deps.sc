@@ -7,6 +7,7 @@
     deps.do({ |dep|
         if( not(Quarks.isInstalled(dep)), {
             Quarks.install(dep);
+            thisProcess.recompile();
         });
     });
 )
