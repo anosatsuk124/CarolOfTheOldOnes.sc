@@ -1,7 +1,8 @@
 (
+    s.boot();
+
     "../deps.sc".loadRelative();
     "./music.sc".loadRelative();
-    s.boot();
     
     ~midiOpts = { |channel, midiOut|
         (type: \midi,
@@ -25,15 +26,19 @@
     };
     
     ~player = { |bpm|
-        ~song.play(bpm);
-        ~melody.play(bpm);
-        ~chords.play(bpm);
+        fork {
+            ~songScore.play(bpm);
+            ~melody.play(bpm);
+            ~chords.play(bpm);
+
+            //~song.play();
+        }.play;
     };
 )
-~bpm = TempoClock.new(80/60);
+~bpm = TempoClock.new(60/60);
 
 ~player.(~bpm);
-~song.play(~bpm);
+~songScore.play(~bpm);
 ~chords.play(~bpm);
 ~melody.play();
 

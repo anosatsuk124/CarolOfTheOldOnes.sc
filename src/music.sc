@@ -31,7 +31,7 @@
         );
     }.();
 
-    ~song = {
+    ~songScore = {
         m = [0, 0, -1, 0, -2];
 
         ~time5_s = [(1/3)/2, (1/3)/2, (1/3)/2, (1/3)/2, 1/3];
@@ -54,6 +54,13 @@
             \amp, 0.5,
         );
     }.();
+    
+    ~song = {
+        var buf = Buffer.read(s, "../misc/song_14.wav".resolveRelative());
+        (PlayBuf.ar(1, buf, 1)).dup(2);
+        
+        // Pan2.ar(player, 0);
+    };
     
     ~chords = {
         Pbind(

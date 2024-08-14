@@ -31,7 +31,7 @@
             md.write();
         };
     
-        f.(~song, "song");
+        f.(~songScore, "song");
         f.(~melody, "melody");
         f.(~chords, "chords");
     };
