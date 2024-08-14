@@ -14,31 +14,28 @@
         cond.hang();
         
         ~path = path;
+
+        f = { |score, prefix|
+            var path, name;
+            var md;
+
+            path = PathName.new(~path.asString());
+            name = prefix ++ "_" ++ path.fileNameWithoutExtension();
+
+            path = path.parentPath() +/+ (name ++ ".mid");
+            path = path.asString();
+
+            md = SimpleMIDIFile(path);
+            md.init1(2, 80, "4/4"); // Minimum track is 2
+            md.fromPattern(score);
+            md.write();
+        };
+    
+        f.(~song, "song");
+        f.(~melody, "melody");
+        f.(~chords, "chords");
     };
 
     // For GUI to work
     AppClock.play(r);
-)
-
-(
-    f = { |score, prefix|
-        var path, name;
-        var md;
-        var cond = Condition.new;
-
-        path = PathName.new(~path.asString());
-        name = prefix ++ "_" ++ path.fileNameWithoutExtension();
-
-        path = path.parentPath() +/+ (name ++ ".mid");
-        path = path.asString();
-
-        md = SimpleMIDIFile(path);
-        md.init1(2, 80, "4/4"); // Minimum track is 2
-        md.fromPattern(score);
-        md.write();
-    };
-    
-    f.(~song, "song");
-    f.(~melody, "melody");
-    f.(~chords, "chords");
 )
