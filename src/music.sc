@@ -22,7 +22,8 @@
 
                 Pseq(~time5.dup(4).flatten),
             ]),
-            \legato, 1,
+            \legato, 0.3,
+            \amp, 0.2,
         );
     }.();
 
@@ -35,13 +36,14 @@
             \degree, Pseq([
                 Pseq(m, 16),
                 Pseq(m + 2, 4), //NOTE: because it's degree
-            ] + 7),
+            ]),
             \dur, 
             Pseq([
                 Pseq(~time5_s, 16),
                 Pseq(~time5_s, 4),
             ]),
-            \legato, 1,
+            \legato, 0.8,
+            \amp, 0.5,
         );
     }.();
     

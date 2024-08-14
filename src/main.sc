@@ -2,7 +2,6 @@
     "../deps.sc".loadRelative();
     "./music.sc".loadRelative();
     s.boot();
-    ~bpm = TempoClock.new(80/60);
     
     ~midiOpts = { |channel, midiOut|
         (type: \midi,
@@ -31,9 +30,12 @@
         ~chords.play(bpm);
     };
 )
-TempoClock.default.tempo = 1;
+~bpm = TempoClock.new(80/60);
 
-~player.();
+~player.(~bpm);
+~melody.play();
+
+Scale.directory()
 
 // MIDI Boot
 (
