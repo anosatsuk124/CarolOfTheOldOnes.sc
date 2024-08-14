@@ -50,7 +50,7 @@
                 Pseq(~time5_s, 16),
                 Pseq(~time5_s, 4),
             ]),
-            \legato, 0.5,
+            \legato, 0.8,
             \amp, 0.5,
         );
     }.();
