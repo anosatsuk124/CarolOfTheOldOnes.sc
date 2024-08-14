@@ -2,8 +2,6 @@
     "./deps.sc".loadRelative();
     "./src/music.sc".loadRelative();
 
-    ~bpm = TempoClock.new(160/60);
-
     r = Routine {
         var cond = Condition.new;
         var path;
@@ -28,10 +26,10 @@
             path = path.asString();
 
             md = SimpleMIDIFile(path);
-            md.init0(60, "3/4"); // Minimum track is 2
+            md.init0(60, "3/4"); // NOTE: 60 ticks needed for 1/4 note by Pbind \dur
             md.timeMode = \ticks; // NOTE:
             md.fromPattern(score);
-            md.setTempo(160);
+            md.setTempo(160); // NOTE: Set 160 BPM as a metadata
             md.write();
         };
     
